@@ -49,7 +49,7 @@ public class AttackManager implements Dumpable {
     }
 
     public ArrayList<AbstractAttackClass> getAttacks() {
-        return (ArrayList<AbstractAttackClass>) attacks.values();
+        return new ArrayList<>(attacks.values());
     }
 
     public boolean isPlayerController() {

@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,16 +67,18 @@ public class PhaseManager implements Dumpable {
 
         Entity boss = BossManager.getInstance().getBossEntity();
         Player bossPlayer = null;
-        if (boss instanceof Player player) {
+        if (boss != null && boss instanceof Player player) {
             bossPlayer = player;
         }
 
-        if (currentPhase.hasSong())
-            currentPhase.stopSong();
+        if (currentPhase != null) {
+            if (currentPhase.hasSong())
+                currentPhase.stopSong();
 
-        if (currentPhase.canFly() && bossPlayer != null) {
-            bossPlayer.setAllowFlight(false);
-            bossPlayer.setFlying(false);
+            if (currentPhase.canFly() && bossPlayer != null) {
+                bossPlayer.setAllowFlight(false);
+                bossPlayer.setFlying(false);
+            }
         }
 
         phaseIndex = index;
@@ -114,7 +117,10 @@ public class PhaseManager implements Dumpable {
 
         BossManager bossManager = BossManager.getInstance();
         bossManager.setBossBarColor(currentPhase.getBossBarColor());
-        bossManager.getPhaseSpecificTask(phaseIndex).runTaskTimer(BossAPI.getPlugin(), 0, 1);
+        BukkitRunnable phaseSpecificTask = bossManager.getPhaseSpecificTask(phaseIndex);
+        if (phaseSpecificTask != null) {
+            phaseSpecificTask.runTaskTimer(BossAPI.getPlugin(), 0, 1);
+        }
         bossManager.getPhaseSwitchTasks().forEach(task -> task.runTaskTimer(BossAPI.getPlugin(), 0, 1));
     }
 

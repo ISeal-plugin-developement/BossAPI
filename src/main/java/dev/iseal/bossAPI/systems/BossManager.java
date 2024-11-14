@@ -64,11 +64,11 @@ public class BossManager implements Dumpable {
             return;
         }
         isFighting = true;
-        phaseManager.setPhase(0, boss.getBossEntity().getLocation());
         this.bossClass = boss;
-        bossBar = Bukkit.createBossBar(boss.getBossName(), phaseManager.getCurrentPhase().getBossBarColor(), boss.getBossBarStyle());
+        bossBar = Bukkit.createBossBar(boss.getBossName(), BarColor.RED, boss.getBossBarStyle());
         Bukkit.getServer().getOnlinePlayers().forEach(player -> bossBar.addPlayer(player));
         persistentTasks.forEach(task -> task.runTaskTimer(BossAPI.getPlugin(), 0, 1));
+        phaseManager.setPhase(0, boss.getBossEntity().getLocation());
         AttackManager.getInstance().init(boss.getBossEntity());
         StartBossFightEvent event = new StartBossFightEvent(boss.getBossEntity());
         Bukkit.getPluginManager().callEvent(event);
@@ -89,6 +89,9 @@ public class BossManager implements Dumpable {
         * @return the boss entity
      */
     public Entity getBossEntity() {
+        if (bossClass == null) {
+            return null;
+        }
         return bossClass.getBossEntity();
     }
 

@@ -23,6 +23,7 @@ public class UseListener implements Listener {
 
     @EventHandler
     public void onUse(PlayerInteractEvent event) {
+        System.out.println("use");
         if (!attackManager.isPlayerController()) {
             return;
         }
