@@ -1,9 +1,7 @@
 package dev.iseal.bossAPI.misc.abstracts;
 
-import org.bukkit.Material;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.entity.Entity;
-import org.bukkit.inventory.ItemStack;
 
 public abstract class AbstractBossClass {
 
@@ -24,8 +22,6 @@ public abstract class AbstractBossClass {
 
     public void setBossHealth(double health) {
         this.health = health;
-        new ItemStack(Material.ACACIA_FENCE).serialize();
-        ItemStack.deserialize(new ItemStack(Material.ACACIA_FENCE).serialize());
     }
 
     public void removeBossHealth(double health) {

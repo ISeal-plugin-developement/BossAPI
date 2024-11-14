@@ -2,7 +2,7 @@ name: BossAPI
 version: '1.0.0.0'
 main: dev.iseal.bossAPI.BossAPI
 api-version: '1.20'
-prefix: [ SwordMaps ]
+prefix: BossAPI
 author: ISeal
 website: iseal.dev
 depends: [ SealLib ]
