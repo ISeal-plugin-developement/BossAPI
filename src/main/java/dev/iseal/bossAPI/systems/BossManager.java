@@ -69,6 +69,7 @@ public class BossManager implements Dumpable {
         Bukkit.getServer().getOnlinePlayers().forEach(player -> bossBar.addPlayer(player));
         persistentTasks.forEach(task -> task.runTaskTimer(BossAPI.getPlugin(), 0, 1));
         phaseManager.setPhase(0, boss.getBossEntity().getLocation());
+        bossBar.setColor(phaseManager.getCurrentPhase().getBossBarColor());
         AttackManager.getInstance().init(boss.getBossEntity());
         StartBossFightEvent event = new StartBossFightEvent(boss.getBossEntity());
         Bukkit.getPluginManager().callEvent(event);

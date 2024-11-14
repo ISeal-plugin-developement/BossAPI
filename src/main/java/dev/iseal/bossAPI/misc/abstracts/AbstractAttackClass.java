@@ -1,16 +1,15 @@
 package dev.iseal.bossAPI.misc.abstracts;
 
-import dev.iseal.bossAPI.BossAPI;
 import dev.iseal.bossAPI.systems.BossManager;
-import dev.iseal.sealLib.Interfaces.Dumpable;
+import dev.iseal.sealLib.Utils.NSKeyHelper;
 import dev.iseal.sealLib.Utils.SoundHelper;
-import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-public abstract class AbstractAttackClass implements Dumpable {
+public abstract class AbstractAttackClass {
 
     private final String name;
     private final double defaultDamage;
@@ -31,9 +30,10 @@ public abstract class AbstractAttackClass implements Dumpable {
     private final String attackSoundNamespace;
 
     private long lastExecution = 0;
+    private boolean hasSetItemUp = false;
 
     public AbstractAttackClass(String name, double defaultDamage, double defaultSpeed, double defaultRange, double cooldown, int minPhase, int maxPhase, boolean isInvulnerableDuringAttack, boolean isTargeted, ItemStack attackItem, String attackSound, String attackSoundNamespace) {
-        this.name = (name == null) ? "Unnamed Attack" : name;
+        this.name = name;
         this.defaultDamage = (defaultDamage < 0) ? 0 : defaultDamage;
         this.defaultSpeed = (defaultSpeed < 1) ? 1 : defaultSpeed;
         this.defaultRange = (defaultRange < 1) ? 1 : defaultRange;
@@ -42,12 +42,11 @@ public abstract class AbstractAttackClass implements Dumpable {
         this.maxPhase = maxPhase;
         this.isInvulnerableDuringAttack = isInvulnerableDuringAttack;
         this.isTargeted = isTargeted;
-        this.attackItem = attackItem;
-        PersistentDataContainer pdc = this.attackItem.getItemMeta().getPersistentDataContainer();
-        pdc.set(NamespacedKey.fromString("is_attack_item", BossAPI.getPlugin()), PersistentDataType.BOOLEAN, true);
-        pdc.set(NamespacedKey.fromString("attack_name", BossAPI.getPlugin()), PersistentDataType.STRING, name);
         this.attackSound = attackSound;
         this.attackSoundNamespace = attackSoundNamespace;
+        this.attackItem = attackItem;
+
+
     }
 
     public String getAttackName() {
@@ -118,11 +117,21 @@ public abstract class AbstractAttackClass implements Dumpable {
     public void setLastExecution() {
         lastExecution = System.currentTimeMillis();
     }
+
     public boolean isTargeted() {
         return isTargeted;
     }
 
     public ItemStack getAttackItem() {
+        if (!hasSetItemUp) {
+            // make item connected to this attack
+            ItemMeta meta = attackItem.getItemMeta();
+            PersistentDataContainer pdc = meta.getPersistentDataContainer();
+            pdc.set(NSKeyHelper.getKey("is_attack_item"), PersistentDataType.BOOLEAN, true);
+            pdc.set(NSKeyHelper.getKey("attack_name"), PersistentDataType.STRING, name);
+            attackItem.setItemMeta(meta);
+            hasSetItemUp = true;
+        }
         return attackItem;
     }
 
