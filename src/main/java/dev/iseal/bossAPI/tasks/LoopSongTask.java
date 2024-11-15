@@ -1,6 +1,6 @@
 package dev.iseal.bossAPI.tasks;
 
-import dev.iseal.sealLib.Utils.SoundHelper;
+import dev.iseal.sealLib.Helpers.SoundHelper;
 import org.bukkit.Location;
 import org.bukkit.scheduler.BukkitRunnable;
 

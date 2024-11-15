@@ -3,7 +3,7 @@ package dev.iseal.bossAPI;
 import dev.iseal.bossAPI.listeners.DamageListener;
 import dev.iseal.bossAPI.listeners.JoinListener;
 import dev.iseal.bossAPI.listeners.UseListener;
-import dev.iseal.sealLib.Utils.NSKeyHelper;
+import dev.iseal.sealLib.Helpers.NSKeyHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -19,6 +19,7 @@ public final class BossAPI extends JavaPlugin {
         Bukkit.getServer().getPluginManager().registerEvents(new JoinListener(), this);
         NSKeyHelper.getKey(this, "is_attack_item");
         NSKeyHelper.getKey(this, "attack_name");
+
     }
 
     @Override

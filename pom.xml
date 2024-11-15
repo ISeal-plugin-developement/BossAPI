@@ -75,7 +75,7 @@
         <dependency>
             <groupId>com.github.ISeal-plugin-developement</groupId>
             <artifactId>SealLib</artifactId>
-            <version>master-SNAPSHOT</version>
+            <version>1.0.2.0-DEV4-01b65c659751914a97458fb203da01cf39ee6baa</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

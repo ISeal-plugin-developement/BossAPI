@@ -95,8 +95,8 @@ public class PhaseManager implements Dumpable {
             bossPlayer.setFlying(true);
         }
 
-        if (currentPhase.doesRegenerate() && !regenerateHealthTask.isCancelled()) {
-            if (regenerateHealthTask != null) {
+        if (currentPhase.doesRegenerate()) {
+            if (regenerateHealthTask != null && !regenerateHealthTask.isCancelled()) {
                 regenerateHealthTask.cancel();
             }
 

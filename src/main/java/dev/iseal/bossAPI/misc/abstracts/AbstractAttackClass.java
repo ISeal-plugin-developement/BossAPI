@@ -1,8 +1,8 @@
 package dev.iseal.bossAPI.misc.abstracts;
 
 import dev.iseal.bossAPI.systems.BossManager;
-import dev.iseal.sealLib.Utils.NSKeyHelper;
-import dev.iseal.sealLib.Utils.SoundHelper;
+import dev.iseal.sealLib.Helpers.NSKeyHelper;
+import dev.iseal.sealLib.Helpers.SoundHelper;
 import org.bukkit.entity.Entity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -34,10 +34,10 @@ public abstract class AbstractAttackClass {
 
     public AbstractAttackClass(String name, double defaultDamage, double defaultSpeed, double defaultRange, double cooldown, int minPhase, int maxPhase, boolean isInvulnerableDuringAttack, boolean isTargeted, ItemStack attackItem, String attackSound, String attackSoundNamespace) {
         this.name = name;
-        this.defaultDamage = (defaultDamage < 0) ? 0 : defaultDamage;
-        this.defaultSpeed = (defaultSpeed < 1) ? 1 : defaultSpeed;
-        this.defaultRange = (defaultRange < 1) ? 1 : defaultRange;
-        this.defaultMaxCooldown = (cooldown < 0) ? 0 : cooldown;
+        this.defaultDamage = defaultDamage;
+        this.defaultSpeed = defaultSpeed;
+        this.defaultRange = defaultRange;
+        this.defaultMaxCooldown = cooldown;
         this.minPhase = minPhase;
         this.maxPhase = maxPhase;
         this.isInvulnerableDuringAttack = isInvulnerableDuringAttack;
