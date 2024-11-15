@@ -14,6 +14,7 @@ public class DamageListener implements Listener {
     public void onDamage(EntityDamageEvent event) {
         Entity entity = event.getEntity();
         BossManager bossManager = BossManager.getInstance();
+
         if (!bossManager.isBoss(entity)) {
             return;
         }

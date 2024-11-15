@@ -124,6 +124,10 @@ public class PhaseManager implements Dumpable {
         bossManager.getPhaseSwitchTasks().forEach(task -> task.runTaskTimer(BossAPI.getPlugin(), 0, 1));
     }
 
+    public boolean isResetOnEndPhase() {
+        return currentPhase.isResetOnEndPhase();
+    }
+
     public void addPhaseInstance(AbstractPhaseClass phaseInstance) {
         phaseInstances.add(phaseInstance);
     }

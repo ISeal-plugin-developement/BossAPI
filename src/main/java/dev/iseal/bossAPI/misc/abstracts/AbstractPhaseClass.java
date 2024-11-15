@@ -24,6 +24,8 @@ public abstract class AbstractPhaseClass {
     private final String songNamespace;
     private final String songName;
     private final boolean canFly;
+    private final boolean resetOnEnd;
+
     private LoopSongTask songTask;
 
     public AbstractPhaseClass(String name, double minHealth, double maxHealth, double damageMultiplier, double speedMultiplier, double healthRegen, long regenSpeed, boolean doesRegenerate, BarColor bossBarColor) {
@@ -43,13 +45,14 @@ public abstract class AbstractPhaseClass {
         this.songNamespace = null;
         this.songName = null;
         this.canFly = false;
+        this.resetOnEnd = false;
     }
 
     /*
     * @param name the name of the phase
     * @param isSongLetargic if the song is letargic, meaning you have to manually start it. not really raccomended except in special cases
      */
-    public AbstractPhaseClass(String name, double minHealth, double maxHealth, double damageMultiplier, double speedMultiplier, double healthRegen, long regenSpeed, boolean doesRegenerate, BarColor bossBarColor, String songNamespace, String songName, boolean isSongLetargic, long songDurationTicks, boolean canFly) {
+    public AbstractPhaseClass(String name, double minHealth, double maxHealth, double damageMultiplier, double speedMultiplier, double healthRegen, long regenSpeed, boolean doesRegenerate, BarColor bossBarColor, String songNamespace, String songName, boolean isSongLetargic, long songDurationTicks, boolean canFly, boolean resetOnEnd) {
         this.name = name;
         this.minHealth = minHealth;
         this.maxHealth = maxHealth;
@@ -66,6 +69,7 @@ public abstract class AbstractPhaseClass {
         this.songNamespace = songNamespace;
         this.songName = songName;
         this.canFly = canFly;
+        this.resetOnEnd = resetOnEnd;
     }
 
     public String getPhaseName() {
@@ -109,7 +113,7 @@ public abstract class AbstractPhaseClass {
         * @return true if the song is letargic
         *
         * being letargic means that the song has to be manually started by the plugin making the phase
-        * basically, its not my problem.
+        * basically, it's not my problem.
      */
     public boolean isSongLetargic() {
         return isSongLetargic;
@@ -150,5 +154,17 @@ public abstract class AbstractPhaseClass {
             songTask = null;
         }
         hasSongStarted = false;
+    }
+
+    public boolean isResetOnEndPhase() {
+        return resetOnEnd;
+    }
+
+    public double getMinHealth() {
+        return minHealth;
+    }
+
+    public double getMaxHealth() {
+        return maxHealth;
     }
 }

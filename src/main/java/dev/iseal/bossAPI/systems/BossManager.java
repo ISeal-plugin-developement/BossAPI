@@ -111,8 +111,7 @@ public class BossManager implements Dumpable {
             killBoss();
             return;
         }
-        bossBar.setProgress(health / bossClass.getMaxHealth());
-        phaseManager.checkPhaseChange(bossClass.getBossHealth(), bossClass.getBossEntity().getLocation());
+        onHealthChange(health);
     }
 
     public void killBoss() {
@@ -123,11 +122,12 @@ public class BossManager implements Dumpable {
         bossClass = null;
         phaseManager.invalidate();
         attackManager.invalidate();
+        instance = null;
         bossBar.removeAll();
     }
 
     /*
-        * check if the boss is currently doing an attack
+        * check if the boss is currently doing an attack (implies fighting)
         * @return true if the boss is attacking
      */
     public boolean isAttacking() {
@@ -135,7 +135,7 @@ public class BossManager implements Dumpable {
     }
 
     /*
-     * check if there is a fight going on
+     * check if there is a fight going on (doesn't mean the boss is attacking)
      * @return true if the boss is fighting
      */
     public boolean isFighting() {
@@ -164,14 +164,22 @@ public class BossManager implements Dumpable {
         return bossClass.getBossHealth();
     }
 
-    public void healBoss(double amount){
-        bossClass.addBossHealth(amount);
-        bossBar.setProgress(bossClass.getBossHealth() / bossClass.getMaxHealth());
-    }
-
     public void setBossHealth(double newHealth) {
         bossClass.setBossHealth(newHealth);
-        bossBar.setProgress(newHealth / bossClass.getMaxHealth());
+        onHealthChange(newHealth);
+    }
+
+    private void onHealthChange(double health) {
+        double minHealth = phaseManager.getCurrentPhase().getMinHealth();
+        double maxHealth = phaseManager.getCurrentPhase().getMaxHealth();
+        double phaseHealth = health - minHealth;
+        double phaseMaxHealth = maxHealth - minHealth;
+        if (phaseManager.isResetOnEndPhase()) {
+            bossBar.setProgress(phaseHealth / phaseMaxHealth);
+        } else {
+            bossBar.setProgress(health / bossClass.getMaxHealth());
+        }
+        phaseManager.checkPhaseChange(health, bossClass.getBossEntity().getLocation());
     }
 
     @Override
