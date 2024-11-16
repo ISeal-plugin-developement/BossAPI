@@ -11,6 +11,17 @@ public class RegenerateHealthTask extends BukkitRunnable {
 
     @Override
     public void run() {
+        if (!bossManager.isFighting()) {
+            this.cancel();
+            return;
+        }
+
+        // dont heal if attacking
+        //TODO: evaluate if this is balanced.
+        if (bossManager.isAttacking()){
+            return;
+        }
+
         bossManager.setBossHealth(phaseManager.getNewHealth(bossManager.getBossHealth()));
     }
 }
