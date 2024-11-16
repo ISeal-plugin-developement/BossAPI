@@ -93,6 +93,10 @@ public abstract class AbstractAttackClass {
         return speed;
     }
 
+    public double getRange() {
+        return range;
+    }
+
     public boolean isInvulnerableDuringAttack() {
         return isInvulnerableDuringAttack;
     }

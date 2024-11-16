@@ -129,6 +129,14 @@ public class PhaseManager implements Dumpable {
     }
 
     public void addPhaseInstance(AbstractPhaseClass phaseInstance) {
+        // do some checks to warn people who don't know what they are doing
+        if (!phaseInstances.isEmpty()) {
+            AbstractPhaseClass lastPhase = phaseInstances.getLast();
+            if (lastPhase.getMaxHealth() != phaseInstance.getMinHealth()) {
+                ExceptionHandler.getInstance().dealWithException(new IllegalArgumentException("Phase health range is invalid. Each phase must have maxHealth == minHealth of the last."), Level.WARNING, "PHASE_HEALTH_RANGE_INVALID", "last phase: "+lastPhase, "new phase: "+phaseInstance);
+            }
+        }
+
         phaseInstances.add(phaseInstance);
     }
 

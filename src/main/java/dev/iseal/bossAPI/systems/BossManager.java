@@ -96,6 +96,11 @@ public class BossManager implements Dumpable {
         return bossClass.getBossEntity();
     }
 
+    /*
+    * Damages the boss
+    * @param damage the damage to deal
+    * @throws IllegalStateException if the boss is not fighting or the input is invalid
+     */
     public void damageBoss(double damage) {
         if (!isFighting) {
             ExceptionHandler.getInstance().dealWithException(new IllegalStateException("Boss is not fighting"), Level.WARNING, "BOSS_NOT_FIGHTING_WHEN_ATTACKED", "boss: " + bossClass);
@@ -114,6 +119,9 @@ public class BossManager implements Dumpable {
         onHealthChange(health);
     }
 
+    /*
+    * Kills the boss and resets the fight
+     */
     public void killBoss() {
         isFighting = false;
         isAttacking = false;
@@ -148,28 +156,48 @@ public class BossManager implements Dumpable {
         }
     }
 
+    /*
+    * Get the phase switch tasks
+    * @return the phase switch tasks
+     */
     public ArrayList<BukkitRunnable> getPhaseSwitchTasks() {
         return phaseSwitchTasks;
     }
 
+    /*
+        * Get a phase specific task
+        * @return the phase specific task
+     */
     public BukkitRunnable getPhaseSpecificTask(int phase) {
         return phaseSpecificTasks.get(phase);
     }
 
+    /*
+        * Set the boss bar color
+     */
     public void setBossBarColor(BarColor bossBarColor) {
         bossBar.setColor(bossBarColor);
     }
 
+    /*
+        * Get the boss health
+        * @return the boss health
+     */
     public double getBossHealth() {
         return bossClass.getBossHealth();
     }
 
+    /*
+        * Set the boss health and update the boss bar
+        * @param newHealth the new health
+     */
     public void setBossHealth(double newHealth) {
         bossClass.setBossHealth(newHealth);
         onHealthChange(newHealth);
     }
 
     private void onHealthChange(double health) {
+        phaseManager.checkPhaseChange(health, bossClass.getBossEntity().getLocation());
         double minHealth = phaseManager.getCurrentPhase().getMinHealth();
         double maxHealth = phaseManager.getCurrentPhase().getMaxHealth();
         double phaseHealth = health - minHealth;
@@ -179,7 +207,6 @@ public class BossManager implements Dumpable {
         } else {
             bossBar.setProgress(health / bossClass.getMaxHealth());
         }
-        phaseManager.checkPhaseChange(health, bossClass.getBossEntity().getLocation());
     }
 
     @Override

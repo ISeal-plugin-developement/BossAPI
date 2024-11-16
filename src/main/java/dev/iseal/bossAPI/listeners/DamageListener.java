@@ -18,7 +18,11 @@ public class DamageListener implements Listener {
         if (!bossManager.isBoss(entity)) {
             return;
         }
+        // for testing, use event.getDamage() instead event.getFinalDamage().
+        // TODO: change to event.getFinalDamage() in production.
         bossManager.damageBoss(event.getDamage());
+        // bossManager.damageBoss(event.getFinalDamage());
+
         Bukkit.getPluginManager().callEvent(new BossDamageEvent(event.getDamage(), event.getEntity(), bossManager.getBossEntity()));
         event.setDamage(0);
     }
