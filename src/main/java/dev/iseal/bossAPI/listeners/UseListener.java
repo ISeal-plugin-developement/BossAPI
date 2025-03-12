@@ -24,7 +24,6 @@ public class UseListener implements Listener {
 
     @EventHandler
     public void onUse(PlayerInteractEvent event) {
-
         if (!attackManager.isPlayerController()) {
             return;
         }
@@ -47,7 +46,7 @@ public class UseListener implements Listener {
             }
 
             if (attack.isTargeted()) {
-                Entity hitEntity = GlobalUtils.raycastInaccurate(event.getPlayer(), attack.getDefaultRange());
+                Entity hitEntity = GlobalUtils.raycastInaccurate(event.getPlayer(), attack.getRange());
                 if (hitEntity == null) {
                     logger.warning("No entity hit!");
                     event.getPlayer().sendMessage("No entity hit!");

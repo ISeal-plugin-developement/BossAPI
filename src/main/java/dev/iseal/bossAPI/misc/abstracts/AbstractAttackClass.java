@@ -32,6 +32,17 @@ public abstract class AbstractAttackClass {
     private long lastExecution = 0;
     private boolean hasSetItemUp = false;
 
+    /**
+     * @param name Name of the attack
+     * @param defaultDamage Default damage of the attack
+     * @param defaultSpeed Default speed of the attack
+     * @param defaultRange Default range of the attack
+     * @param cooldown The cooldown of the attack IN MILLISECONDS!!
+     * @param minPhase The minimum phase the attack can be executed in
+     * @param maxPhase The maximum phase the attack can be executed in
+     * @param isInvulnerableDuringAttack Whether the boss is invulnerable during the attack
+     * @param isTargeted Whether the attack is targeted
+     */
     public AbstractAttackClass(String name, double defaultDamage, double defaultSpeed, double defaultRange, double cooldown, int minPhase, int maxPhase, boolean isInvulnerableDuringAttack, boolean isTargeted, ItemStack attackItem, String attackSound, String attackSoundNamespace) {
         this.name = name;
         this.defaultDamage = defaultDamage;
@@ -45,8 +56,6 @@ public abstract class AbstractAttackClass {
         this.attackSound = attackSound;
         this.attackSoundNamespace = attackSoundNamespace;
         this.attackItem = attackItem;
-
-
     }
 
     public String getAttackName() {
@@ -65,7 +74,7 @@ public abstract class AbstractAttackClass {
         return defaultRange;
     }
 
-    public double geDefaultCooldown() {
+    public double getDefaultCooldown() {
         return defaultMaxCooldown;
     }
 
@@ -79,6 +88,10 @@ public abstract class AbstractAttackClass {
 
     public void setSpeed(double speed) {
         this.speed = speed;
+    }
+
+    public void setRange(double range) {
+        this.range = range;
     }
 
     public double getCooldown() {

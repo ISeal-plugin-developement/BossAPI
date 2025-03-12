@@ -67,7 +67,7 @@ public class PhaseManager implements Dumpable {
 
         Entity boss = BossManager.getInstance().getBossEntity();
         Player bossPlayer = null;
-        if (boss != null && boss instanceof Player player) {
+        if (boss instanceof Player player) {
             bossPlayer = player;
         }
 
@@ -85,7 +85,7 @@ public class PhaseManager implements Dumpable {
         phaseName = phaseInstances.get(index).getPhaseName();
         currentPhase = phaseInstances.get(index);
 
-        if (currentPhase.hasSong() && !currentPhase.isSongLetargic())
+        if (currentPhase.hasSong() && !currentPhase.isSongLethargic())
             // start song with location, again, only used for world basically
             // kind of bad practice, but it works
             currentPhase.startSong(location);
@@ -111,7 +111,7 @@ public class PhaseManager implements Dumpable {
             if (attack.canBeDone(index)) {
                 attack.setDamage(currentPhase.getActualDamage(attack.getDefaultDamage()));
                 attack.setSpeed(currentPhase.getActualSpeed(attack.getDefaultSpeed()));
-                attack.setSpeed(currentPhase.getActualSpeed(attack.getDefaultSpeed()));
+                attack.setRange(currentPhase.getActualRange(attack.getDefaultRange()));
             }
         });
 

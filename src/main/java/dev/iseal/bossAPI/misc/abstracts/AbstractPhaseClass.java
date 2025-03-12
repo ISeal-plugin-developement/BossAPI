@@ -13,12 +13,13 @@ public abstract class AbstractPhaseClass {
     private final double maxHealth;
     private final double damageMultiplier;
     private final double speedMultiplier;
+    private final double rangeMultiplier;
     private final double healthRegen;
     private final long regenSpeed;
     private final BarColor bossBarColor;
     private final boolean doesRegen;
     private final boolean hasSong;
-    private final boolean isSongLetargic;
+    private final boolean isSongLethargic;
     private boolean hasSongStarted;
     private final long songDurationTicks;
     private final String songNamespace;
@@ -28,43 +29,45 @@ public abstract class AbstractPhaseClass {
 
     private LoopSongTask songTask;
 
-    public AbstractPhaseClass(String name, double minHealth, double maxHealth, double damageMultiplier, double speedMultiplier, double healthRegen, long regenSpeed, boolean doesRegenerate, BarColor bossBarColor) {
+    public AbstractPhaseClass(String name, double minHealth, double maxHealth, double damageMultiplier, double speedMultiplier, double rangeMultiplier, double healthRegen, long regenSpeed, boolean doesRegenerate, BarColor bossBarColor, boolean canFly, boolean resetOnEnd) {
         this.name = name;
         this.minHealth = minHealth;
         this.maxHealth = maxHealth;
         this.damageMultiplier = damageMultiplier;
         this.speedMultiplier = speedMultiplier;
+        this.rangeMultiplier = rangeMultiplier;
         this.bossBarColor = bossBarColor;
         this.doesRegen = doesRegenerate;
         this.healthRegen = healthRegen;
         this.regenSpeed = regenSpeed;
         this.hasSong = false;
-        this.isSongLetargic = false;
+        this.isSongLethargic = false;
         this.songDurationTicks = 0;
         this.hasSongStarted = false;
         this.songNamespace = null;
         this.songName = null;
-        this.canFly = false;
-        this.resetOnEnd = false;
+        this.canFly = canFly;
+        this.resetOnEnd = resetOnEnd;
     }
 
-    /*
+    /**
     * @param name the name of the phase
-    * @param isSongLetargic if the song is letargic, meaning you have to manually start it. not really raccomended except in special cases
+    * @param isSongLethargic if the song is lethargic, meaning you have to manually start it. not really reccomanded except in special cases
      */
-    public AbstractPhaseClass(String name, double minHealth, double maxHealth, double damageMultiplier, double speedMultiplier, double healthRegen, long regenSpeed, boolean doesRegenerate, BarColor bossBarColor, String songNamespace, String songName, boolean isSongLetargic, long songDurationTicks, boolean canFly, boolean resetOnEnd) {
+    public AbstractPhaseClass(String name, double minHealth, double maxHealth, double damageMultiplier, double speedMultiplier, double rangeMultiplier, double healthRegen, long regenSpeed, boolean doesRegenerate, BarColor bossBarColor, String songNamespace, String songName, boolean isSongLethargic, long songDurationTicks, boolean canFly, boolean resetOnEnd) {
         this.name = name;
         this.minHealth = minHealth;
         this.maxHealth = maxHealth;
         this.damageMultiplier = damageMultiplier;
         this.speedMultiplier = speedMultiplier;
+        this.rangeMultiplier = rangeMultiplier;
         this.bossBarColor = bossBarColor;
         this.doesRegen = doesRegenerate;
         this.healthRegen = healthRegen;
         this.regenSpeed = regenSpeed;
         this.hasSong = true;
         this.hasSongStarted = false;
-        this.isSongLetargic = isSongLetargic;
+        this.isSongLethargic = isSongLethargic;
         this.songDurationTicks = songDurationTicks;
         this.songNamespace = songNamespace;
         this.songName = songName;
@@ -88,6 +91,10 @@ public abstract class AbstractPhaseClass {
         return speed * speedMultiplier;
     }
 
+    public double getActualRange(double range) {
+        return range * rangeMultiplier;
+    }
+
     public boolean doesRegenerate() {
         return doesRegen;
     }
@@ -108,15 +115,18 @@ public abstract class AbstractPhaseClass {
         return hasSong;
     }
 
-    /*
-        * check if the song is letargic
-        * @return true if the song is letargic
-        *
-        * being letargic means that the song has to be manually started by the plugin making the phase
-        * basically, it's not my problem.
+    /**
+        * Checks if the song is lethargic
+     * <p>
+     * <p>
+     * being lethargic means that the song has to be manually started by the plugin making the phase.
+     * <p>
+     * basically, it's not my problem.
+     *
+        * @return true if the song is lethargic
      */
-    public boolean isSongLetargic() {
-        return isSongLetargic;
+    public boolean isSongLethargic() {
+        return isSongLethargic;
     }
 
     public boolean hasSongStarted() {
@@ -134,7 +144,7 @@ public abstract class AbstractPhaseClass {
         * location is useless cause song reach is infinite. just need a location for the world. (0,0,0) is fine
      */
     public void startSong(Location location) {
-        if (!hasSong || !isSongLetargic || hasSongStarted) {
+        if (!hasSong || !isSongLethargic || hasSongStarted) {
             return;
         }
 
