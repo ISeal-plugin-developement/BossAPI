@@ -30,7 +30,9 @@ public class BossManager implements Dumpable {
     }
 
     //protect from instantiation
-    protected BossManager() {}
+    protected BossManager() {
+        dumpableInit();
+    }
 
     private AbstractBossClass bossClass;
     private boolean isAttacking = false;
@@ -42,7 +44,7 @@ public class BossManager implements Dumpable {
     private final PhaseManager phaseManager = PhaseManager.getInstance();
     private BossBar bossBar;
 
-    /*
+    /**
         * Check if the entity is the boss
         * @param entity the entity to check
         * @return true if the entity is the boss
@@ -53,7 +55,7 @@ public class BossManager implements Dumpable {
         return entity.equals(bossClass.getBossEntity());
     }
 
-    /*
+    /**
         * Start the boss fight
         * @param boss the boss entity
         * @throws IllegalStateException if the boss is already fighting
@@ -75,7 +77,7 @@ public class BossManager implements Dumpable {
         Bukkit.getPluginManager().callEvent(event);
     }
 
-    /*
+    /**
         * Set the boss entity
         * @param boss the boss entity
         *
@@ -85,7 +87,7 @@ public class BossManager implements Dumpable {
         this.bossClass = boss;
     }
 
-    /*
+    /**
         * Get the boss entity
         * @return the boss entity
      */
@@ -96,7 +98,7 @@ public class BossManager implements Dumpable {
         return bossClass.getBossEntity();
     }
 
-    /*
+    /**
     * Damages the boss
     * @param damage the damage to deal
     * @throws IllegalStateException if the boss is not fighting or the input is invalid
@@ -119,7 +121,7 @@ public class BossManager implements Dumpable {
         onHealthChange(health);
     }
 
-    /*
+    /**
     * Kills the boss and resets the fight
      */
     public void killBoss() {
@@ -134,7 +136,7 @@ public class BossManager implements Dumpable {
         bossBar.removeAll();
     }
 
-    /*
+    /**
         * check if the boss is currently doing an attack (implies fighting)
         * @return true if the boss is attacking
      */
@@ -142,7 +144,7 @@ public class BossManager implements Dumpable {
         return isAttacking;
     }
 
-    /*
+    /**
      * check if there is a fight going on (doesn't mean the boss is attacking)
      * @return true if the boss is fighting
      */
@@ -150,13 +152,14 @@ public class BossManager implements Dumpable {
         return isFighting;
     }
 
+
     public void addPlayerBar(Player player) {
         if (isFighting && bossBar != null) {
             bossBar.addPlayer(player);
         }
     }
 
-    /*
+    /**
     * Get the phase switch tasks
     * @return the phase switch tasks
      */
@@ -164,7 +167,7 @@ public class BossManager implements Dumpable {
         return phaseSwitchTasks;
     }
 
-    /*
+    /**
         * Get a phase specific task
         * @return the phase specific task
      */
@@ -172,14 +175,14 @@ public class BossManager implements Dumpable {
         return phaseSpecificTasks.get(phase);
     }
 
-    /*
+    /**
         * Set the boss bar color
      */
     public void setBossBarColor(BarColor bossBarColor) {
         bossBar.setColor(bossBarColor);
     }
 
-    /*
+    /**
         * Get the boss health
         * @return the boss health
      */
@@ -187,7 +190,7 @@ public class BossManager implements Dumpable {
         return bossClass.getBossHealth();
     }
 
-    /*
+    /**
         * Set the boss health and update the boss bar
         * @param newHealth the new health
      */
@@ -196,6 +199,10 @@ public class BossManager implements Dumpable {
         onHealthChange(newHealth);
     }
 
+    /**
+        * Do the necessary calculations and set the new hp
+     * @param health the new health
+     */
     private void onHealthChange(double health) {
         phaseManager.checkPhaseChange(health, bossClass.getBossEntity().getLocation());
         double minHealth = phaseManager.getCurrentPhase().getMinHealth();
