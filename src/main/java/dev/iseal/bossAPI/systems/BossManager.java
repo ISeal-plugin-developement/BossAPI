@@ -6,8 +6,8 @@ import dev.iseal.bossAPI.events.StartBossFightEvent;
 import dev.iseal.bossAPI.misc.abstracts.AbstractBossClass;
 import dev.iseal.bossAPI.systems.attacks.AttackManager;
 import dev.iseal.bossAPI.systems.phases.PhaseManager;
-import dev.iseal.sealLib.Interfaces.Dumpable;
-import dev.iseal.sealLib.Utils.ExceptionHandler;
+import dev.iseal.sealUtils.Interfaces.Dumpable;
+import dev.iseal.sealUtils.utils.ExceptionHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BossBar;
@@ -214,6 +214,10 @@ public class BossManager implements Dumpable {
         } else {
             bossBar.setProgress(health / bossClass.getMaxHealth());
         }
+    }
+
+    public double getMaxHealth() {
+        return bossClass.getMaxHealth();
     }
 
     @Override

@@ -19,7 +19,6 @@ public final class BossAPI extends JavaPlugin {
         Bukkit.getServer().getPluginManager().registerEvents(new JoinListener(), this);
         NSKeyHelper.getKey(this, "is_attack_item");
         NSKeyHelper.getKey(this, "attack_name");
-
     }
 
     @Override

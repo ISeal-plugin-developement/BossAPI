@@ -3,7 +3,7 @@ package dev.iseal.bossAPI.systems.attacks;
 import dev.iseal.bossAPI.misc.abstracts.AbstractAttackClass;
 import dev.iseal.bossAPI.systems.ItemManager;
 import dev.iseal.bossAPI.systems.phases.PhaseManager;
-import dev.iseal.sealLib.Interfaces.Dumpable;
+import dev.iseal.sealUtils.Interfaces.Dumpable;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;

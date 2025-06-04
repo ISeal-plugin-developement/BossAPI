@@ -4,7 +4,7 @@ import dev.iseal.bossAPI.misc.abstracts.AbstractAttackClass;
 import dev.iseal.bossAPI.systems.BossManager;
 import dev.iseal.bossAPI.systems.attacks.AttackManager;
 import dev.iseal.sealLib.Helpers.NSKeyHelper;
-import dev.iseal.sealLib.Utils.GlobalUtils;
+import dev.iseal.sealLib.Utils.SpigotGlobalUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.event.EventHandler;
@@ -46,7 +46,7 @@ public class UseListener implements Listener {
             }
 
             if (attack.isTargeted()) {
-                Entity hitEntity = GlobalUtils.raycastInaccurate(event.getPlayer(), attack.getRange());
+                Entity hitEntity = SpigotGlobalUtils.raycastInaccurate(event.getPlayer(), attack.getRange());
                 if (hitEntity == null) {
                     logger.warning("No entity hit!");
                     event.getPlayer().sendMessage("No entity hit!");
